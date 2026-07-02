@@ -332,3 +332,26 @@ The following techniques improve the scalability and responsiveness of the notif
 - Compress API responses where possible.
 - Use database connection pooling.
 - Archive old notifications to maintain database performance.
+
+# Stage 5
+
+## Reliable Notification Delivery Workflow
+
+### Workflow
+
+1. A notification request is received from the admin or system.
+2. The backend validates the request data.
+3. The notification is stored in the `notifications` table.
+4. Recipient details are stored in the `user_notifications` table.
+5. A background worker processes the notification queue.
+6. The notification is delivered to connected users through WebSockets.
+7. If the user is offline, the notification remains available when they log in.
+8. Any delivery failures are logged using the Logging Middleware for monitoring and debugging.
+
+## Reliability Measures
+
+- Validate all incoming requests.
+- Retry failed notification deliveries.
+- Log every important operation using the logging middleware.
+- Prevent duplicate notifications using unique identifiers.
+- Process notifications asynchronously to avoid blocking API requests.
